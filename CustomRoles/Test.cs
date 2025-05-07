@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace LabAPI.CustomRoles.CustomRoles
 {
-    public class Test : CustomRole
+    public sealed class Test : CustomRole
     {
         public override float MaxHumeShield { get; set; } = 100;
         public override float MaxArtificialHealth { get; set; } = 30;

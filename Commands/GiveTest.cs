@@ -5,7 +5,7 @@ using System;
 namespace LabAPI.CustomRoles.Commands
 {
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
-    internal class GiveTest : ICommand
+    internal sealed class GiveTest : ICommand
     {
         public string Command => "givetest";
 
