@@ -1,13 +1,1 @@
-<Project Sdk="Microsoft.NET.Sdk">
 
-		<PropertyGroup>
-		<AssemblyName>LabAPI.CustomRoles</AssemblyName>
-		<RootNamespace>LabAPI.CustomRoles</RootNamespace>
-		<Copyright>Copyright © Logic_Gun 2025</Copyright>
-	</PropertyGroup>
-
-	<!-- Remove unnessessary files in VS -->
-	<ItemGroup>
-		<None Remove=".*;*.md;LICENSE" />
-	</ItemGroup>
-</Project>
