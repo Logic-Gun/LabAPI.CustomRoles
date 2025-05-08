@@ -1,5 +1,4 @@
-﻿using LabApi.Events.Arguments.PlayerEvents;
-using LabApi.Features.Wrappers;
+﻿using LabApi.Features.Wrappers;
 using PlayerRoles;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,7 +10,6 @@ namespace LabAPI.CustomRoles.Interfaces
         IReadOnlyList<Player> TrackedPlayers { get; }
 
         bool IsTrackedPlayers { get; }
-        bool IsMustBeResetInventory { get; }
 
         float MaxHealth { get; set; }
         float MaxHumeShield { get; set; }
@@ -34,20 +32,7 @@ namespace LabAPI.CustomRoles.Interfaces
 
         bool Check(Player pl);
 
-        void SubscribeEvents();
-        void UnsubscribeEvents();
-
         void AddRole(Player pl, RoleChangeReason roleChangeReason = RoleChangeReason.RoundStart);
         void RemoveRole(Player pl);
-
-        void OnRoleAdded(Player pl);
-        void OnRoleRemoved(Player pl);
-
-        void OnLeft(PlayerLeftEventArgs ev);
-        void OnDied(PlayerDeathEventArgs ev);
-
-        void ClearTrackedPlayers();
-
-        void BeforeClearTrackedPlayers();
     }
 }
