@@ -1,5 +1,5 @@
 ﻿using LabApi.Events.CustomHandlers;
-using LabAPI.CustomRoles.API;
+using LabAPI.CustomRoles.API.CustomRole;
 
 namespace LabAPI.CustomRoles.Handlers
 {

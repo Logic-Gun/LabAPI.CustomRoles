@@ -62,7 +62,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="API\CustomRole.cs" />
+    <Compile Include="API\CustomRole\CustomRole.cs" />
+    <Compile Include="API\CustomRole\Methods\Overrides.cs" />
+    <Compile Include="API\CustomRole\Methods\Virtuals.cs" />
+    <Compile Include="API\CustomRole\Methods\Methods.cs" />
+    <Compile Include="API\CustomRole\Properties\Abstractions.cs" />
+    <Compile Include="API\CustomRole\Properties\Virtuals.cs" />
+    <Compile Include="API\CustomRole\Properties\Properties.cs" />
+    <Compile Include="API\CustomRole\CustomRole.Fields.cs" />
     <Compile Include="Commands\GiveTest.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="CustomRoles\Test.cs" />
@@ -72,5 +79,6 @@
     <Compile Include="Plugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
