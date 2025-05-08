@@ -1,105 +1,101 @@
-﻿using LabApi.Features.Wrappers;
-using UnityEngine;
+﻿namespace LabAPI.CustomRoles.API.CustomRole;
 
-namespace LabAPI.CustomRoles.API.CustomRole
+public abstract partial class CustomRole
 {
-    public abstract partial class CustomRole
+    // ──────────────── PUBLIC INSTANCE METHODS ────────────────
+
+    public bool Check(Player pl) => _trackedPlayers.Contains(pl);
+
+    public void Register()
     {
-        // ──────────────── PUBLIC INSTANCE METHODS ────────────────
+        SubscribeEvents();
+        _customRoles.Add(this);
+    }
 
-        public bool Check(Player pl) => _trackedPlayers.Contains(pl);
+    public void Unregister()
+    {
+        foreach (var pl in _trackedPlayers) RemoveRole(pl);
 
-        public void Register()
+        if (_customRoles.Contains(this))
         {
-            SubscribeEvents();
-            _customRoles.Add(this);
+            UnsubscribeEvents();
+            _customRoles.Remove(this);
         }
+    }
 
-        public void Unregister()
+    // ──────────────── INTERNAL STATIC METHODS ────────────────
+
+    internal static void ClearAllTrackedPlayers()
+    {
+        foreach (var customRole in _customRoles)
         {
-            foreach (var pl in _trackedPlayers) RemoveRole(pl);
+            customRole.BeforeClearTrackedPlayers();
+            customRole.ClearTrackedPlayers();
+        }
+    }
 
-            if (_customRoles.Contains(this))
+    // ──────────────── PRIVATE INSTANCE METHODS ────────────────
+
+    private void ClearTrackedPlayers()
+    {
+        _trackedPlayers = [];
+    }
+
+    private void ApplyCustomInfo(Player pl)
+    {
+        if (pl != null) return;
+
+        pl.CustomInfo = CustomInfo;
+        AfterApplyCustomInfo(pl);
+    }
+
+    private void ApplyMaxHealth(Player pl)
+    {
+        if (pl == null || MaxHealth == 0) return;
+
+        pl.MaxHealth = MaxHealth;
+        pl.Health = MaxHealth;
+    }
+
+    private void ApplyArtificialHealth(Player pl)
+    {
+        if (pl == null || MaxArtificialHealth == 0) return;
+
+        pl.ArtificialHealth = MaxArtificialHealth;
+        pl.MaxArtificialHealth = MaxArtificialHealth;
+    }
+
+    private void ApplyHumeShield(Player pl)
+    {
+        if (pl == null || MaxHumeShield == 0) return;
+
+        pl.MaxHumeShield = MaxHumeShield;
+        pl.HumeShield = MaxHumeShield;
+    }
+
+    private void ApplyGravity(Player pl)
+    {
+        if (pl == null || !Gravity.HasValue) return;
+        pl.Gravity = Gravity.Value;
+    }
+
+    private void AddItems(Player pl)
+    {
+        if (pl == null) return;
+
+        foreach (var item in Inventory)
+        {
+            for (int i = 0; i < item.Value; i++)
             {
-                UnsubscribeEvents();
-                _customRoles.Remove(this);
+                pl.AddItem(item.Key);
             }
         }
 
-        // ──────────────── INTERNAL STATIC METHODS ────────────────
-
-        internal static void ClearAllTrackedPlayers()
+        foreach (var item in AdditionalInventory)
         {
-            foreach (var customRole in _customRoles)
+            for (int i = 0; i < item.Value; i++)
             {
-                customRole.BeforeClearTrackedPlayers();
-                customRole.ClearTrackedPlayers();
-            }
-        }
-
-        // ──────────────── PRIVATE INSTANCE METHODS ────────────────
-
-        private void ClearTrackedPlayers()
-        {
-            _trackedPlayers = [];
-        }
-
-        private void ApplyCustomInfo(Player pl)
-        {
-            if (pl != null) return;
-
-            pl.CustomInfo = CustomInfo;
-            AfterApplyCustomInfo(pl);
-        }
-
-        private void ApplyMaxHealth(Player pl)
-        {
-            if (pl == null || MaxHealth == 0) return;
-
-            pl.MaxHealth = MaxHealth;
-            pl.Health = MaxHealth;
-        }
-
-        private void ApplyArtificialHealth(Player pl)
-        {
-            if (pl == null || MaxArtificialHealth == 0) return;
-
-            pl.ArtificialHealth = MaxArtificialHealth;
-            pl.MaxArtificialHealth = MaxArtificialHealth;
-        }
-
-        private void ApplyHumeShield(Player pl)
-        {
-            if (pl == null || MaxHumeShield == 0) return;
-
-            pl.MaxHumeShield = MaxHumeShield;
-            pl.HumeShield = MaxHumeShield;
-        }
-
-        private void ApplyGravity(Player pl)
-        {
-            if (pl == null || Gravity == null) return;
-            pl.Gravity = (Vector3)Gravity;
-        }
-
-        private void AddItems(Player pl)
-        {
-            if (pl == null) return;
-
-            foreach (var item in Inventory)
-            {
-                for (int i = 0; i < item.Value; i++)
-                {
-                    pl.AddItem(item.Key);
-                }
-            }
-
-            foreach (var item in AdditionalInventory)
-            {
-                for (int i = 0; i < item.Value; i++)
-                {
-                    pl.AddItem(item.Key);
-                }
+                pl.AddItem(item.Key);
             }
         }
     }

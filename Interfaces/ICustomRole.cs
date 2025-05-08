@@ -1,38 +1,35 @@
-﻿using LabApi.Features.Wrappers;
-using PlayerRoles;
-using System.Collections.Generic;
+﻿using PlayerRoles;
 using UnityEngine;
 
-namespace LabAPI.CustomRoles.Interfaces
+namespace LabAPI.CustomRoles.Interfaces;
+
+public interface ICustomRole
 {
-    public interface ICustomRole
-    {
-        IReadOnlyList<Player> TrackedPlayers { get; }
+    IReadOnlyList<Player> TrackedPlayers { get; }
 
-        bool IsTrackedPlayers { get; }
+    bool HasTrackedPlayers { get; }
 
-        float MaxHealth { get; set; }
-        float MaxHumeShield { get; set; }
-        float MaxArtificialHealth { get; set; }
+    float MaxHealth { get; set; }
+    float MaxHumeShield { get; set; }
+    float MaxArtificialHealth { get; set; }
 
-        Vector3? Gravity { get; set; }
-        Vector3 Scale { get; set; }
+    Vector3? Gravity { get; set; }
+    Vector3 Scale { get; set; }
 
-        ulong Id { get; set; }
-        string Name { get; set; }
-        RoleTypeId Role { get; set; }
-        string Description { get; set; }
-        string CustomInfo { get; set; }
+    ulong Id { get; set; }
+    string Name { get; set; }
+    RoleTypeId Role { get; set; }
+    string Description { get; set; }
+    string CustomInfo { get; set; }
 
-        Dictionary<ItemType, ushort> Inventory { get; set; }
-        Dictionary<ItemType, ushort> AdditionalInventory { get; set; }
+    Dictionary<ItemType, ushort> Inventory { get; set; }
+    Dictionary<ItemType, ushort> AdditionalInventory { get; set; }
 
-        void Register();
-        void Unregister();
+    void Register();
+    void Unregister();
 
-        bool Check(Player pl);
+    bool Check(Player pl);
 
-        void AddRole(Player pl, RoleChangeReason roleChangeReason = RoleChangeReason.RoundStart);
-        void RemoveRole(Player pl);
-    }
+    void AddRole(Player pl, RoleChangeReason roleChangeReason = RoleChangeReason.RoundStart);
+    void RemoveRole(Player pl);
 }

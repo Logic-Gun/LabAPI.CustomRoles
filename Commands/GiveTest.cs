@@ -1,26 +1,25 @@
 ﻿using CommandSystem;
-using LabApi.Features.Wrappers;
-using System;
+using LabAPI.CustomRoles.CustomRoles;
 
-namespace LabAPI.CustomRoles.Commands
+namespace LabAPI.CustomRoles.Commands;
+
+[CommandHandler(typeof(RemoteAdminCommandHandler))]
+internal sealed class GiveTest : ICommand
 {
-    [CommandHandler(typeof(RemoteAdminCommandHandler))]
-    internal sealed class GiveTest : ICommand
+    public string Command => "givetest";
+
+    public string[] Aliases => ["gt"];
+
+    public string Description => string.Empty;
+
+    public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
     {
-        public string Command => "givetest";
+        Player pl = Player.Get(sender);
 
-        public string[] Aliases => ["gt"];
+        // Temp set custom role
+        Plugin.Instance.Config.CustomRoles.First(x=>x.GetType() == typeof(Test)).AddRole(pl);
 
-        public string Description => string.Empty;
-
-        public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
-        {
-            Player pl = Player.Get(sender);
-
-            Plugin.Instance.Config.Test.AddRole(pl);
-
-            response = "Successfully!";
-            return true;
-        }
+        response = "Successfully!";
+        return true;
     }
 }

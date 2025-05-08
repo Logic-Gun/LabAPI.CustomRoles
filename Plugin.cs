@@ -6,7 +6,7 @@ namespace LabAPI.CustomRoles;
 
 public sealed class Plugin : Plugin<Config>
 {
-    private List<CustomEventsHandler> _handlers = [];
+    private readonly List<CustomEventsHandler> _handlers = [];
 
     public override string Name => "LabAPI.CustomRoles";
     public override string Description => "Implementing the creation of Custom Roles for LabAPI";
@@ -20,6 +20,11 @@ public sealed class Plugin : Plugin<Config>
     {
         Instance = null;
 
+        foreach (var customRole in Config.CustomRoles)
+        {
+            customRole.Unregister();
+        }
+
         UnregisterHandlers();
     }
 
@@ -27,7 +32,10 @@ public sealed class Plugin : Plugin<Config>
     {
         Instance = this;
 
-        Instance.Config.Test.Register();
+        foreach (var customRole in Config.CustomRoles)
+        {
+            customRole.Register();
+        }
 
         RegisterHandlers();
     }
@@ -35,9 +43,12 @@ public sealed class Plugin : Plugin<Config>
     private void RegisterHandlers()
     {
         PlayerHandler playerHandler = new();
-
         CustomHandlersManager.RegisterEventsHandler(playerHandler);
         _handlers.Add(playerHandler);
+
+        ServerHandler serverHandler = new();
+        CustomHandlersManager.RegisterEventsHandler(serverHandler);
+        _handlers.Add(serverHandler);
     }
 
     private void UnregisterHandlers()
@@ -47,6 +58,6 @@ public sealed class Plugin : Plugin<Config>
             CustomHandlersManager.UnregisterEventsHandler(handler);
         }
 
-        _handlers = null;
+        _handlers.Clear();
     }
 }

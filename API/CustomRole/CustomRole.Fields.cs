@@ -1,14 +1,10 @@
-﻿using LabApi.Features.Wrappers;
-using System.Collections.Generic;
+﻿namespace LabAPI.CustomRoles.API.CustomRole;
 
-namespace LabAPI.CustomRoles.API.CustomRole
+public abstract partial class CustomRole
 {
-    public abstract partial class CustomRole
-    {
-        // ──────────────── PRIVATE STATIC FIELDS ────────────────
-        private static List<CustomRole> _customRoles;
+    // ──────────────── PRIVATE STATIC FIELDS ────────────────
+    private static readonly List<CustomRole> _customRoles;
 
-        // ──────────────── PRIVATE INSTANCE FIELDS ────────────────
-        private List<Player> _trackedPlayers;
-    }
+    // ──────────────── PRIVATE INSTANCE FIELDS ────────────────
+    private List<Player> _trackedPlayers;
 }

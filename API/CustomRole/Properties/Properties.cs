@@ -1,23 +1,22 @@
-﻿using LabApi.Features.Wrappers;
-using System.Collections.Generic;
+﻿using YamlDotNet.Serialization;
 
-namespace LabAPI.CustomRoles.API.CustomRole
+namespace LabAPI.CustomRoles.API.CustomRole;
+
+public abstract partial class CustomRole
 {
-    public abstract partial class CustomRole
-    {
-        // ──────────────── PUBLIC STATIC PROPERTIES ────────────────
-
-        public static IReadOnlyList<CustomRole> CustomRoles { get; private set; } = _customRoles;
+    // ──────────────── PUBLIC STATIC PROPERTIES ────────────────
+    [YamlIgnore]
+    public static IReadOnlyList<CustomRole> CustomRoles { get; private set; } = _customRoles;
 
 
-        // ──────────────── PUBLIC INSTANCE PROPERTIES ────────────────
+    // ──────────────── PUBLIC INSTANCE PROPERTIES ────────────────
+    [YamlIgnore]
+    public IReadOnlyList<Player> TrackedPlayers => _trackedPlayers;
+    [YamlIgnore]
+    public bool HasTrackedPlayers => _trackedPlayers.Count != 0;
 
-        public IReadOnlyList<Player> TrackedPlayers => _trackedPlayers;
-        public bool IsTrackedPlayers => _trackedPlayers.Count != 0;
 
-
-        // ──────────────── PROTECTED INSTANCE PROPERTIES ────────────────
-
-        protected bool IsMustBeResetInventory => Inventory.Count != 0;
-    }
+    // ──────────────── PROTECTED INSTANCE PROPERTIES ────────────────
+    [YamlIgnore]
+    protected bool IsMustBeResetInventory => Inventory.Count != 0;
 }

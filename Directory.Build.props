@@ -39,6 +39,7 @@
 		<Reference Include="UnityEngine.ParticleSystemModule" Private="false" />
 		<Reference Include="UnityEngine.PhysicsModule" Private="false" />
 		<Reference Include="LabApi" Publicize="true" Private="false" />
+		<Reference Include="YamlDotNet" Private="false" />
 	</ItemGroup>
 	<!-- Usings globals -->
 	<ItemGroup>
