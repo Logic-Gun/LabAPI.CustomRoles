@@ -101,11 +101,11 @@ public abstract partial class CustomRole
 
     protected virtual void OnRoleAdded(Player pl)
     {
-        pl?.SendBroadcast(Plugin.Instance.Config.RoleAdded.Replace("%name%", Name), 10, shouldClearPrevious: true);
+        pl?.SendBroadcast(Main.Instance.Config.RoleAdded.Replace("%name%", Name), 10, shouldClearPrevious: true);
     }
 
     protected virtual void OnRoleRemoved(Player pl)
     {
-        pl?.SendBroadcast(Plugin.Instance.Config.RoleRemoved.Replace("%name%", Name), 10, shouldClearPrevious: true);
+        pl?.SendBroadcast(Main.Instance.Config.RoleRemoved.Replace("%name%", Name), 10, shouldClearPrevious: true);
     }
 }

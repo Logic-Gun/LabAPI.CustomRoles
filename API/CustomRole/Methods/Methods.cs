@@ -33,13 +33,14 @@ public abstract partial class CustomRole
             customRole.ClearTrackedPlayers();
         }
     }
-
     // ──────────────── PRIVATE INSTANCE METHODS ────────────────
 
     private void ClearTrackedPlayers()
     {
         _trackedPlayers = [];
     }
+
+    // ──────────────── APPLY CUSTOM DETAILS METHODS ────────────────
 
     private void ApplyCustomInfo(Player pl)
     {
@@ -99,4 +100,6 @@ public abstract partial class CustomRole
             }
         }
     }
+
+    // TODO: Reset stuff for player (ie: CustomInfo, Scale, etc)
 }
