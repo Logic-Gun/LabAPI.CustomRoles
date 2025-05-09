@@ -1,7 +1,26 @@
-﻿namespace LabAPI.CustomRoles.API.CustomRole;
+﻿using LabAPI.CustomRoles.Interfaces;
+
+namespace LabAPI.CustomRoles.API.CustomRole;
 
 public abstract partial class CustomRole
 {
+    // ──────────────── PUBLIC STATIC METHODS ────────────────
+
+    public static ICustomRole Get(string name) => CustomRoles.FirstOrDefault(r => r.Name.Equals(Name, StringComparison.InvariantCultureIgnoreCase));
+    public static ICustomRole Get(ulong id) => CustomRoles.FirstOrDefault(r => r.Id == Id);
+
+    public static bool TryGet(string name, out ICustomRole customRole)
+    {
+        customRole = Get(name);
+        return customRole != null;
+    }
+
+    public static bool TryGet(ulong id, out ICustomRole customRole)
+    {
+        customRole = Get(id);
+        return customRole != null;
+    }
+
     // ──────────────── PUBLIC INSTANCE METHODS ────────────────
 
     public bool Check(Player pl) => _trackedPlayers.Contains(pl);
@@ -33,6 +52,7 @@ public abstract partial class CustomRole
             customRole.ClearTrackedPlayers();
         }
     }
+
     // ──────────────── PRIVATE INSTANCE METHODS ────────────────
 
     private void ClearTrackedPlayers()

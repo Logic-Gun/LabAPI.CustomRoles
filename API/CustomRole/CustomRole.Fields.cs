@@ -1,4 +1,6 @@
-﻿namespace LabAPI.CustomRoles.API.CustomRole;
+﻿using LabAPI.CustomRoles.Interfaces;
+
+namespace LabAPI.CustomRoles.API.CustomRole;
 
 public abstract partial class CustomRole
 {

@@ -1,4 +1,5 @@
-﻿using YamlDotNet.Serialization;
+﻿using LabAPI.CustomRoles.Interfaces;
+using YamlDotNet.Serialization;
 
 namespace LabAPI.CustomRoles.API.CustomRole;
 

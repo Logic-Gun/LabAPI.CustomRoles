@@ -4,7 +4,7 @@ using LabAPI.CustomRoles.Handlers;
 
 namespace LabAPI.CustomRoles;
 
-public sealed class Main : Plugin<Config>
+public sealed class Plugin : Plugin<Config>
 {
     private readonly List<CustomEventsHandler> _handlers = [];
 
@@ -14,7 +14,7 @@ public sealed class Main : Plugin<Config>
     public override Version Version => new(1, 0, 1);
     public override Version RequiredApiVersion => LabApi.Features.LabApiProperties.CurrentVersion;
 
-    public static Main Instance;
+    public static Plugin Instance;
 
     public override void Disable()
     {

@@ -1,4 +1,5 @@
 ﻿using CommandSystem;
+using LabAPI.CustomRoles.API.CustomRole;
 using LabAPI.CustomRoles.Interfaces;
 using Utils;
 
@@ -14,10 +15,10 @@ public sealed class SetCommand : ICommand, IUsageProvider
     public string[] Aliases => [];
 
     /// <inheritdoc/>
-    public string Description => "Set customRole to player(s)";
+    public string Description => "Set CustomRole to player(s)";
 
     /// <inheritdoc/>
-    public string[] Usage => ["CustomRoleId/CustomRoleName", "%player% (Optional)"];
+    public string[] Usage => ["<Id/Name>", "%player% (Optional)"];
 
     public PlayerPermissions RequiredPerm = PlayerPermissions.PlayersManagement;
 
@@ -25,42 +26,53 @@ public sealed class SetCommand : ICommand, IUsageProvider
     {
         if (!sender.CheckPermission(RequiredPerm))
         {
-            response = "You do not have permission!";
+            response = Plugin.Instance.Config.DontHaveAccess;
             return false;
         }
-        List<Player> players = [];
+
         var player = Player.Get(sender);
-        if (arguments.Count == 1 && player == null)
+
+        if (arguments.Count == 1)
         {
-            response = "To execute this command provide at least 2 arguments!\nUsage: " + arguments.Array[0] + " " + this.DisplayCommandUsage();
+            response = "To execute this command provide at least 2 arguments!" +
+                $"\nUsage: {arguments.Array[0]} {this.DisplayCommandUsage()}";
             return false;
         }
-        players.Add(player);
-        bool IsID = false;
-        string customroleArg = arguments.At(0);
-        ulong id = 0;
-        if (ulong.TryParse(customroleArg, out id))
-            IsID = true;
-        ICustomRole customRole = Main.Instance.Config.CustomRoles.FirstOrDefault(x=> IsID ? x.Id == id : x.Name.Equals(customroleArg, StringComparison.InvariantCultureIgnoreCase));
+
+        string choosenRole = arguments.At(0);
+        bool isId = false;
+
+        if (ulong.TryParse(choosenRole, out ulong id))
+        {
+            isId = true;
+        }
+
+        ICustomRole customRole = isId ? CustomRole.Get(id) : CustomRole.Get(choosenRole);
+
         if (customRole == null)
         {
             response = "Custom Role not found!";
             return false;
         }
+
+        IEnumerable<Player> players;
+
         if (arguments.Count == 2)
         {
             players = [.. RAUtils.ProcessPlayerIdOrNamesList(arguments, 1, out _).Select(Player.Get)];
         }
-        if (players.Count == 0)
+        else
         {
             response = "No players!";
             return false;
         }
-        foreach (Player p in players)
+
+        foreach (Player pl in players)
         {
-            customRole.AddRole(p);
+            customRole.AddRole(pl);
         }
-        response = "OK!";
+
+        response = Plugin.Instance.Config.Successfully;
         return true;
     }
 }
