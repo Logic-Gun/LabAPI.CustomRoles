@@ -121,5 +121,44 @@ public abstract partial class CustomRole
         }
     }
 
-    // TODO: Reset stuff for player (ie: CustomInfo, Scale, etc)
+    // ──────────────── REMOVE CUSTOM DETAILS METHODS ────────────────
+
+    private void RemoveCustomInfo(Player pl)
+    {
+        if (pl == null) return;
+        pl.CustomInfo = null;
+        AfterRemoveCustomInfo(pl);
+    }
+
+    private void RemoveMaxHealth(Player pl)
+    {
+        if (pl == null) return;
+        pl.MaxHealth = 100;
+        pl.Health = pl.MaxHealth;
+    }
+
+    private void RemoveArtificialHealth(Player pl)
+    {
+        if (pl == null) return;
+        pl.ArtificialHealth = 0;
+        pl.MaxArtificialHealth = 0;
+    }
+
+    private void RemoveHumeShield(Player pl)
+    {
+        if (pl == null) return;
+        pl.MaxHumeShield = 0;
+        pl.HumeShield = 0;
+    }
+
+    private void RemoveGravity(Player pl)
+    {
+        if (pl == null) return;
+        pl.Gravity = new(0, -19.6f, 0);
+    }
+
+    private void RemoveItems(Player pl)
+    {
+        pl?.ClearInventory();
+    }
 }

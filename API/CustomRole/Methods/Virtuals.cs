@@ -19,7 +19,8 @@ public abstract partial class CustomRole
     public virtual void RemoveRole(Player pl)
     {
         RemovePlayerFromTracking(pl);
-        pl.SetRole(RoleTypeId.Spectator, RoleChangeReason.Died);
+        UnassignRole(pl);
+        RemoveChanges(pl);
         OnRoleRemoved(pl);
     }
 
@@ -38,6 +39,11 @@ public abstract partial class CustomRole
     /// </summary>
     /// <param name="pl">Player</param>
     protected virtual void AfterApplyCustomInfo(Player pl) { }
+
+    /// <summary>
+    /// The default implementation does nothing.
+    /// When Custom Info is removed from the player this method is called.
+    protected virtual void AfterRemoveCustomInfo(Player pl) { }
 
 
     /// <summary>
@@ -86,6 +92,11 @@ public abstract partial class CustomRole
         );
     }
 
+    protected virtual void UnassignRole(Player pl)
+    {
+        pl?.SetRole(RoleTypeId.Spectator, RoleChangeReason.Died);
+    }
+
     protected virtual void ApplyDelayedChanges(Player pl)
     {
         Timing.CallDelayed(0.35f, () =>
@@ -97,6 +108,16 @@ public abstract partial class CustomRole
             ApplyGravity(pl);
             AddItems(pl);
         });
+    }
+
+    protected virtual void RemoveChanges(Player pl)
+    {
+        RemoveCustomInfo(pl);
+        RemoveMaxHealth(pl);
+        RemoveArtificialHealth(pl);
+        RemoveHumeShield(pl);
+        RemoveGravity(pl);
+        RemoveItems(pl);
     }
 
     protected virtual void OnRoleAdded(Player pl)
