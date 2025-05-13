@@ -10,7 +10,7 @@ public sealed class Plugin : Plugin<Config>
 
     public override string Name => "LabAPI.CustomRoles";
     public override string Description => "Implementing the creation of Custom Roles for LabAPI";
-    public override string Author => "Logic_Gun";
+    public override string Author => "Logic_Gun | SlejmUr";
     public override Version Version => new(1, 0, 2);
     public override Version RequiredApiVersion => LabApi.Features.LabApiProperties.CurrentVersion;
 
