@@ -6,8 +6,8 @@ public abstract partial class CustomRole
 {
     // ──────────────── PUBLIC STATIC METHODS ────────────────
 
-    public static ICustomRole Get(string name) => CustomRoles.FirstOrDefault(r => r.Name.Equals(Name, StringComparison.InvariantCultureIgnoreCase));
-    public static ICustomRole Get(ulong id) => CustomRoles.FirstOrDefault(r => r.Id == Id);
+    public static ICustomRole Get(string name) => CustomRoles.FirstOrDefault(r => r.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase));
+    public static ICustomRole Get(ulong id) => CustomRoles.FirstOrDefault(r => r.Id == id);
 
     public static bool TryGet(string name, out ICustomRole customRole)
     {
