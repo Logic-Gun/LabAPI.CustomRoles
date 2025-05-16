@@ -14,7 +14,7 @@ public sealed class Plugin : Plugin<Config>
     public override Version Version => new(1, 0, 2);
     public override Version RequiredApiVersion => LabApi.Features.LabApiProperties.CurrentVersion;
 
-    public static Plugin Instance;
+    public static Plugin Instance { get; private set; }
 
     public override void Disable()
     {
@@ -42,13 +42,13 @@ public sealed class Plugin : Plugin<Config>
 
     private void RegisterHandlers()
     {
-        PlayerHandler playerHandler = new();
-        CustomHandlersManager.RegisterEventsHandler(playerHandler);
-        _handlers.Add(playerHandler);
+        _handlers.Clear();
+        _handlers.AddRange(CreateHandlers());
 
-        ServerHandler serverHandler = new();
-        CustomHandlersManager.RegisterEventsHandler(serverHandler);
-        _handlers.Add(serverHandler);
+        foreach (var handler in _handlers)
+        {
+            CustomHandlersManager.RegisterEventsHandler(handler);
+        }
     }
 
     private void UnregisterHandlers()
@@ -59,5 +59,11 @@ public sealed class Plugin : Plugin<Config>
         }
 
         _handlers.Clear();
+    }
+
+    private IEnumerable<CustomEventsHandler> CreateHandlers()
+    {
+        yield return new ServerHandler();
+        yield return new PlayerHandler();
     }
 }
